@@ -1,21 +1,71 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>MedTech Phase Simulation</title>
   <style>
-    :root { --gap:16px; --border:#e7e7e7; --muted:#777; font-family: ui-sans-serif, system-ui, -apple-system; }
-    .wrap { max-width: 980px; margin: 24px auto; padding: 0 16px; }
-    h1 { font-size: 22px; margin: 0 0 12px; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); margin-top: 16px; }
-    .panel { border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
-    .imgbox { display:grid; place-items:center; border:1px dashed var(--border); border-radius:8px; min-height:300px; overflow:hidden; background:#fafafa; }
-    .imgbox img { max-width:100%; height:auto; display:block; }
-    .muted { color: var(--muted); font-size: 12px; }
-    @media (max-width: 800px){ .grid{ grid-template-columns:1fr; } }
+    :root {
+      --gap: 16px;
+      --border: #e7e7e7;
+      --muted: #777;
+      font-family: ui-sans-serif, system-ui, -apple-system;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin: 0 0 12px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--gap);
+      margin-top: 16px;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .imgbox {
+      display: grid;
+      place-items: center;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      min-height: 300px;
+      overflow: hidden;
+      background: #fafafa;
+    }
+
+    .imgbox img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <h1>MedTech Phase Simulation</h1>
@@ -29,7 +79,8 @@
       <div style="margin-top:12px">
         <label>Phase</label><br />
         <label><input type="radio" name="phase" value="arterial" /> Arterial (↑ contrast)</label>
-        <label style="margin-left:16px"><input type="radio" name="phase" value="venous" /> Venous (gaussian smoothing)</label>
+        <label style="margin-left:16px"><input type="radio" name="phase" value="venous" /> Venous (gaussian
+          smoothing)</label>
       </div>
 
       <button id="btn" type="submit" style="margin-top:12px">Process</button>
@@ -51,7 +102,8 @@
 
   <script>
     // Backend URL here (Hugging Face Space URL) change
-    const BACKEND = window.BACKEND_URL || "http://127.0.0.1:7860";
+    //const BACKEND = window.BACKEND_URL || "http://127.0.0.1:7860";    
+    const BACKEND = "https://azaykarimli-phase-sim.hf.space";
     document.getElementById('backendOut').textContent = BACKEND;
 
     const form = document.getElementById('form');
@@ -92,7 +144,7 @@
         const fd = new FormData();
         fd.append('file', f);
         fd.append('phase', phase);
-        const res = await fetch(`${BACKEND.replace(/\/$/,'')}/process`, { method: 'POST', body: fd });
+        const res = await fetch(`${BACKEND.replace(/\/$/, '')}/process`, { method: 'POST', body: fd });
         if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
         const json = await res.json();
         procBox.innerHTML = '';
@@ -107,4 +159,5 @@
     });
   </script>
 </body>
+
 </html>
